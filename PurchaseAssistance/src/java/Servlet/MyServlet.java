@@ -13,7 +13,10 @@ import java.util.Random;
 
 @WebServlet(name = "MyServlet", urlPatterns = {"/MyServlet"})
 public class MyServlet extends HttpServlet {
+    //variables that need to be created once
     private int count;
+    QuestionBean qb = new QuestionBean();
+    String answer;
 
        protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -45,39 +48,49 @@ public class MyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        QuestionBean qb = new QuestionBean();
+        //variables that need to be created inside doPost
         qb.addQuestion();
         String[][][] questions = qb.getQuestions();
         RequestDispatcher r;
         int rnd = qb.getRnd();
-                
+        
+        //if statements to decide which question to give
+        //if count is > 0, sets answer in bean
+        //sets page to be redirected to
         if(count == 0){
             qb.setqNumber(rnd);
             String question = (questions[0][0][qb.getqNumber()].toString());
             qb.setQuestion(question);
             qb.setsCount(count++);
-            r = request.getRequestDispatcher("Recommendation.jsp");
+            r = request.getRequestDispatcher("Questions.jsp");
             
         }
         else if(count == 1){
+            answer = request.getParameter("answer");
+            qb.setA1(answer);
             String question = (questions[0][count][qb.getqNumber()].toString());
             qb.setQuestion(question);
             qb.setsCount(count);
             count++;
-            r = request.getRequestDispatcher("Recommendation.jsp");
+            r = request.getRequestDispatcher("Questions.jsp");
         }
         else if(count == 2){
+            answer = request.getParameter("answer");
+            qb.setA2(answer);
             String question = (questions[1][0][qb.getqNumber()].toString());
             qb.setQuestion(question);
             qb.setsCount(count);
             count++;
-            r = request.getRequestDispatcher("Recommendation.jsp");
-        }
-        else{
-            count = 0;
             r = request.getRequestDispatcher("Questions.jsp");
         }
+        else{
+            answer = request.getParameter("answer");
+            qb.setA3(answer);
+            count = 0;
+            r = request.getRequestDispatcher("Recommendation.jsp");
+        }
+        
+            //redirect to jsp page
             request.setAttribute("qb", qb);
             r.forward(request,response);
         

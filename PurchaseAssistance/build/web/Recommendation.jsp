@@ -7,15 +7,14 @@
         <title>Recommendation</title>
     </head>
     <body>
-        <h1>Your recommended purchase is</h1>
+        <h2>Your recommended purchase is</h2>
         <br>
-        Array: <jsp:getProperty name="qb" property="question"/>
+        
+        <!--Gets recommended item properties-->
+        Item : <jsp:getProperty name="qb" property="a1"/>
         <br>
-        Count: <jsp:getProperty name="qb" property="sCount"/>
-        Question: <jsp:getProperty name="qb" property="qNumber"/>
-        <form action="MyServlet" method="post">
-            <input type="text" name="answer">
-            <input type="submit" value="Continue">
-        </form>
+        Type : <jsp:getProperty name="qb" property="a2"/>
+        <br>
+        Quality : <jsp:getProperty name="qb" property="a3"/>
     </body>
 </html>
